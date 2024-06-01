@@ -1,3 +1,7 @@
+; ===========================================================================
+; Program reads a number (with multiple digits) from the matrix keypad and
+; and stores the result in address 30H.
+; ===========================================================================
 ORG 0000
 AJMP MAIN
 
@@ -26,7 +30,7 @@ READ_KEYPAD:
 	MOV DPTR, #KEYS		; POINTER TO KEY VALUES
 	MOV R0, #0		; Init pointer for rows
 	MOV R1, #0		; Init pointer for coumns
-	MOV 30H, #0		; Init read number in memory
+	MOV 31H, #0		; Init read number in memory
 	MOV B, #10		; Init multiplication factor for decimal places
 
 
@@ -128,11 +132,11 @@ CONVERT_TO_NUM:
 	MOV R3, A		; Save converted number to R3
 
 STORE_NUM:
-	MOV A, 30H
+	MOV A, 31H
 	MOV B, #10		; Get multiplication factor
 	MUL AB			; A * 10 (B is 10)
 	ADD A, R3		; Add new digit
-	MOV 30H, A
+	MOV 31H, A
 
 WAIT_KEY_RELEASE:
 	MOV P0, #0F0H

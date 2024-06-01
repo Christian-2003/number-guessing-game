@@ -1,6 +1,8 @@
 # Number Guessing Game
 I do not want to develop this, but we have to do this for university...
 
+<br/>
+
 ## Table of Contents
 1. [Algorithm](#algorithm)
 2. [Setup](#setup)
