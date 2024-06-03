@@ -9,6 +9,10 @@
 ; The following memory addresses are used:
 ;	30H	Stores the pseudorandom number
 ;	31H	Stores the number entered by the user
+;
+; The following ports are used:
+;	P0	Input from the matrix keypad
+;	P1	Output for the LED panel
 ; ===========================================================================
 ORG 0
 AJMP INIT
@@ -144,6 +148,35 @@ RAND:
 	MUL AB
 	ADD A, #0x13		; c = 19
 	MOV 30H, A
+	RET
+
+
+
+
+
+; ---------------------------------------------------------------------------
+; The following section contains subprograms used to display information to
+; the user, after a number was entered.
+; Call DISPLAY_GREATER to inform the user that the randomly generated number
+;	is greater than the entered number.
+; Call DISPLAY_LESS to inform the user that the randomly generated number is
+;	less than the entered number.
+; Call DISPLAY_EQUAL to inform the user that the randomly generated number is
+;	equal to the entered number.
+; ---------------------------------------------------------------------------
+DISPLAY_GREATER:
+	MOV P1, #0FFH
+	CLR P1.2
+	RET
+
+DISPLAY_LESS:
+	MOV P1, #0FFH
+	CLR P1.0
+	RET
+
+DISPLAY_EQUAL:
+	MOV P1, #0FFH
+	CLR P1.1
 	RET
 
 END
