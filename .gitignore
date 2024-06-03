@@ -1,0 +1,9 @@
+*.adf
+*.adf~
+*.asm~
+*.bin
+*.bin~
+*.hex
+*.hex~
+*.lst
+*.lst~
