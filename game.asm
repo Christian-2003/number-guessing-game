@@ -40,6 +40,13 @@ LOOP:
 ; how to configure the keypad.
 ; Call READ_KEYPAD to read a number from the keypad.
 ; ---------------------------------------------------------------------------
+
+; Array stores keys for the matrix keypad
+KEYS:	DB '1', '2', '3', 'A'
+	DB '4', '5', '6', 'B'
+	DB '7', '8', '9', 'C'
+	DB '*', '0', '#', 'D'
+
 READ_KEYPAD:
 	MOV P0, #0FFH		; Set P0 as input for the matrix keypad
 	MOV DPTR, #KEYS		; POINTER TO KEY VALUES
