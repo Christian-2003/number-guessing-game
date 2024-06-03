@@ -27,7 +27,24 @@ INIT:
 	; Init game here...
 LOOP:
 	ACALL READ_KEYPAD
-	; TODO: Compare entered number (in 31H) and generated number (in 30H)
+	MOV A, 30H
+	MOV B, 31H
+	SUBB A, B
+	JC NUM_LESS		; A < B: Generated number < Guessed number
+	MOV A, 31H
+	MOV B, 30H
+	SUBB A, B
+	JC NUM_GREATER		; A < B: Generated number > Guessed number
+	SJMP NUM_EQUAL		; A = B: Generated number = Guessed number
+NUM_EQUAL:
+	ACALL DISPLAY_EQUAL
+	; TODO: What to do when the user 'wins' the game?
+	SJMP LOOP
+NUM_LESS:
+	ACALL DISPLAY_LESS
+	SJMP LOOP
+NUM_GREATER:
+	ACALL DISPLAY_GREATER
 	SJMP LOOP
 
 
@@ -52,7 +69,7 @@ READ_KEYPAD:
 	MOV DPTR, #KEYS		; POINTER TO KEY VALUES
 	MOV R0, #0		; Init pointer for rows
 	MOV R1, #0		; Init pointer for coumns
-	MOV 31H, #0		; Init read number in memory
+	MOV 31H, #0		; Init number that was already read in memory
 	MOV B, #10		; Init multiplication factor for decimal places
 
 
