@@ -7,3 +7,5 @@
 *.hex~
 *.lst
 *.lst~
+*.vhc~
+*.mcu8051ide~
