@@ -27,6 +27,9 @@ INIT:
 	; Init game here...
 LOOP:
 	ACALL READ_KEYPAD
+	ACALL DISPLAY_EQUAL
+WAIT:
+	SJMP WAIT
 	MOV A, 30H
 	MOV B, 31H
 	SUBB A, B
@@ -65,12 +68,12 @@ KEYS:	DB '1', '2', '3', 'A'
 	DB '*', '0', '#', 'D'
 
 READ_KEYPAD:
-	MOV P0, #0FFH		; Set P0 as input for the matrix keypad
-	MOV DPTR, #KEYS		; POINTER TO KEY VALUES
-	MOV R0, #0		; Init pointer for rows
-	MOV R1, #0		; Init pointer for coumns
-	MOV 31H, #0		; Init number that was already read in memory
-	MOV B, #10		; Init multiplication factor for decimal places
+	MOV P0, #0FFH		; Set P0 as input for the matrix keypad.
+	MOV DPTR, #KEYS		; Pointer to key values.
+	MOV R0, #0		; Init pointer for rows.
+	MOV R1, #5		; Init pointer for coumns.
+	MOV 31H, #0		; Init number that was already read in memory.
+	MOV B, #10		; Init multiplication factor for decimal places.
 
 
 
@@ -97,20 +100,16 @@ ROW3:
 
 
 CHECK_COL:
-	MOV P0, #0F0H
-	CLR P0.0
-	JNB P0.0, COL0		; Test whether key in column 1 is clicked.
-	SETB P0.0
-	CLR P0.1
-	JNB P0.1, COL1		; Test whether key in column 2 is clicked.
-	SETB P0.1
-	CLR P0.2
-	JNB P0.2, COL2		; Test whether key in column 3 is clicked.
-	SETB P0.2
-	CLR P0.3
-	JNB P0.3, COL3		; Test whether key in column 4 is clicked.
-	SETB P0.3
-	SJMP CHECK_ROW		; No key clicked.
+	MOV P0, #0FFH
+	CLR P0.4
+	CLR P0.5
+	CLR P0.6
+	CLR P0.7
+	JNB P0.0, COL0
+	JNB P0.1, COL1
+	JNB P0.2, COL2
+	JNB P0.3, COL3
+	SJMP CHECK_ROW		; No key pressed.
 COL0:
 	MOV R1, #0
 	SJMP GET_KEY
@@ -128,9 +127,9 @@ COL3:
 
 GET_KEY:
 	MOV A, R0
-	ADD A, A		; A = R0 * 4
-	ADD A, A		; A = R0 * 4 * 4
-	ADD A, R1		; A = R0 * 4 + R1
+	ADD A, A
+	ADD A, A
+	ADD A, R1		; A + R1 (Pressed row * 4 + Pressed column)
 	MOVC A, @A+DPTR		; Get key value from #KEYS
 	MOV R2, A		; Save key value to R2
 	CJNE A, #'#', STORE_OR_CONVERT_NUM ; If pressed key is not '#'
@@ -154,7 +153,7 @@ WAIT_RELEASE_LOOP:
 	JNB P0.5, WAIT_RELEASE_LOOP
 	JNB P0.6, WAIT_RELEASE_LOOP
 	JNB P0.7, WAIT_RELEASE_LOOP
-	SJMP CHECK_ROW		; Read next digit
+	AJMP CHECK_ROW		; Read next digit
 
 
 
