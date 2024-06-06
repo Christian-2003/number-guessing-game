@@ -27,9 +27,6 @@ INIT:
 	; Init game here...
 LOOP:
 	ACALL READ_KEYPAD
-	ACALL DISPLAY_EQUAL
-WAIT:
-	SJMP WAIT
 	MOV A, 30H
 	MOV B, 31H
 	SUBB A, B
@@ -40,14 +37,23 @@ WAIT:
 	JC NUM_GREATER		; A < B: Generated number > Guessed number
 	SJMP NUM_EQUAL		; A = B: Generated number = Guessed number
 NUM_EQUAL:
+	; User 'won':
 	ACALL DISPLAY_EQUAL
-	; TODO: What to do when the user 'wins' the game?
-	SJMP LOOP
+	ACALL RAND		; Generate new random number.
+	SJMP WAIT_RELEASE_KEY	; Continue to let the user guess the new random number.
 NUM_LESS:
 	ACALL DISPLAY_LESS
-	SJMP LOOP
+	SJMP WAIT_RELEASE_KEY
 NUM_GREATER:
 	ACALL DISPLAY_GREATER
+	SJMP WAIT_RELEASE_KEY
+WAIT_RELEASE_KEY:
+	MOV P0, #0F0H
+LOOP_RELEASE_KEY:
+	JNB P0.4, LOOP_RELEASE_KEY
+	JNB P0.5, LOOP_RELEASE_KEY
+	JNB P0.6, LOOP_RELEASE_KEY
+	JNB P0.7, LOOP_RELEASE_KEY
 	SJMP LOOP
 
 
