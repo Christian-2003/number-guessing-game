@@ -48,7 +48,7 @@ To setup the matrix keypad, click on **Virtual HW > Matrix Keypad**. A new windo
 
 ![Matrix keypad](./docs/img/matrix_keypad.png)
 
-To setup the LED panel, click on **Virtual HW > Matrix Keypad**. A new window opens. Click on the wrench symbol and select **Load configuration**. Select **hw/keypad.vhc** to load the configuration. Afterwards, the LED panel should look like this:
+To setup the LED panel, click on **Virtual HW > LED panel**. A new window opens. Click on the wrench symbol and select **Load configuration**. Select **hw/led_panel.vhc** to load the configuration. Afterwards, the LED panel should look like this:
 
 ![LED panel](./docs/img/led_panel.png)
 
