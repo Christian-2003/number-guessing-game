@@ -1,3 +1,5 @@
+<img src="docs/img/logo.png" height="150" align="right">
+
 # Number Guessing Game
 ![](https://img.shields.io/github/license/Christian-2003/number-guessing-game?color=red)
 ![](https://img.shields.io/github/issues/Christian-2003/number-guessing-game)
